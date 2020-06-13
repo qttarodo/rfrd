@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "80299d1b-33be-4a99-adbc-c7889e482a8b",
+		"_postman_id": "9cc7f4e8-b3b4-478d-9698-7ff0d9cd029d",
 		"name": "RFRD_TEST_BACK",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -264,6 +264,36 @@
 				"header": [],
 				"url": {
 					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registerUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"id_utilisateur\":5,\r\n\"nom\":\"zqsd\",\r\n\"prenom\":\"francis\",\r\n\"password\":\"azertyuio\",\r\n\"email\":\"francis.zqsd@gmail.com\",\r\n\"birthday\":\"25/01/1990\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/api/registerUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"api",
+						"registerUser"
+					]
 				}
 			},
 			"response": []
