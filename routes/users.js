@@ -43,20 +43,28 @@ function loginUser(req, res, next){
   db
   .select("*")
   .from("utilisateur")
-  .where("email", "=", req.body.emailUser)
-  //.andWhere("password", "=", md5.hex(req.params.mdpUser))
-  //.where("id_utilisateur", "=",req.params.idUser, " AND" , "password", "=",  md5.hex(req.params.mdpUser))
-  .then(function (data) {
-    res.status(200)
+  .where("email", "=", req.body.emailUser).andWhere("password", "=", md5.hex(req.body.mdpUser))
+  .then(data => {
+    if (data.length <= 0) {
+      res.status(200)
       .json({
         status: 'success',
         data: data,
         message: 'user connecté'
       });
+    }
+    else {
+    res.status(400).json({
+      status: 'bad request',
+      data: data,
+      message: 'fail'
+    });
+    }
   })
   .catch(function (err) {
     return next(err);
   });
+  
 }
 
 function getUserById(req, res, next) {
