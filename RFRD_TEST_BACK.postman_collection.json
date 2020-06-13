@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "9cc7f4e8-b3b4-478d-9698-7ff0d9cd029d",
-		"name": "RFRD_TEST_BACK",
+		"_postman_id": "31fc65db-0906-480f-83aa-44f57bd06288",
+		"name": "RFRD_TEST_BACK copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -263,7 +263,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "http://localhost:3000/questions/api/questionSemaine",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"questions",
+						"api",
+						"questionSemaine"
+					]
 				}
 			},
 			"response": []
@@ -305,7 +315,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"emailUser\":\"francis@gmail.fr\"\r\n}",
+					"raw": "{\r\n\"emailUser\":\"francis.zqsd@gmail.com\",\r\n\"mdpUser\":\"azertyuioqqqq\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
