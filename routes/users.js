@@ -8,6 +8,7 @@ var db = require('../database');
 router.get('/api/allUsers', getAllUsers);
 router.get('/api/user/:idUser', getUserById);
 router.post('/api/vote', postVote);
+router.post('/api/updateVote', updateVote);
 router.post('/api/noterDoc', noteDocument);
 router.post('/api/noterCom', noteCommentaire);
 router.post('/api/commenterDoc', commenterDocument);
@@ -95,7 +96,15 @@ function getAllUsers(req, res, next) {
 }
 
 function postVote(req, res, next) {
-  db("vote")
+
+  db
+  .select()
+  .from('vote')
+  .where("id_question", "=", req.body.id_question)
+  .andWhere("id_utilisateur", "=", req.body.id_utilisateur)
+  .then(data => {
+    if (data.length <= 0) {
+      db("vote")
       .insert({
         id_question: req.body.id_question,
         id_utilisateur: req.body.id_utilisateur,
@@ -111,7 +120,53 @@ function postVote(req, res, next) {
     .catch(function (err) {
       return next(err);
     });
+    }
+    else {
+      updateVote(req,res)
+    }
+  })
+  .catch(err => {
+    res.status(400).json("Bad request");
+  });
+
+
+
+
+ 
 }
+
+function updateVote(req, res, next) {
+
+  db
+  .select()
+  .from('vote')
+  .where("id_question", "=", req.body.id_question)
+  .andWhere("id_utilisateur", "=", req.body.id_utilisateur)
+  .update({
+    resultat: req.body.resultat
+  })
+  .then(data => {
+    if (data.length <= 0) {
+      res.status(400)
+        .json({
+          status: 'fail',
+          message: ''
+        });
+    }
+    else {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'vote update'
+        });
+    }
+  })
+  .catch(err => {
+    res.status(400).json("Bad request");
+  });
+}
+
 
 function noteDocument(req, res, next) {
   db("notedocument")
