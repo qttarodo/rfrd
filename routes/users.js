@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+md5 = require('js-md5');
 var db = require('../database');
 
 
@@ -11,7 +11,49 @@ router.post('/api/vote', postVote);
 router.post('/api/noterDoc', noteDocument);
 router.post('/api/noterCom', noteCommentaire);
 router.post('/api/commenterDoc', commenterDocument);
+router.post('/api/registerUser', registerUser);
 
+
+function registerUser(req, res, next){
+  db("utilisateur")
+      .insert({
+        id_utilisateur: req.body.id_utilisateur,
+        nom: req.body.nom,
+        prenom: req.body.prenom,
+        password: md5.hex(req.body.password),
+        email: req.body.email,
+        birthday: req.body.birthday,
+      })
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'utilisateur enregistré'
+        });
+    })
+    .catch(function (err) {
+     message = "error 400";
+      res.status(400).json(message);
+    });
+}
+
+function loginUser(req, res, next){
+  db
+  .select("*")
+  .from("utilisateur")
+  .where("id_utilisateur", "=", req.params.idUser)
+  .then(function (data) {
+    res.status(200)
+      .json({
+        status: 'success',
+        data: data,
+        message: 'user'
+      });
+  })
+  .catch(function (err) {
+    return next(err);
+  });
+}
 
 function getUserById(req, res, next) {
   db
