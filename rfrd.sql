@@ -18,7 +18,7 @@ CREATE TABLE DOCUMENT(
     id_document SERIAL PRIMARY KEY,
     id_question SERIAL NOT NULL,
     titre VARCHAR (50) NOT NULL,
-    path VARCHAR (50) NOT NULL,
+    path VARCHAR (355) NOT NULL,
     description VARCHAR (355) UNIQUE NOT NULL,
     imagePath VARCHAR (50) NOT NULL,
     constraint FK_document_question foreign key (id_question) references question(id_question)
