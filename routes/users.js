@@ -12,6 +12,7 @@ router.post('/api/noterDoc', noteDocument);
 router.post('/api/noterCom', noteCommentaire);
 router.post('/api/commenterDoc', commenterDocument);
 router.post('/api/registerUser', registerUser);
+router.post('/api/loginUser', loginUser);
 
 
 function registerUser(req, res, next){
@@ -32,7 +33,7 @@ function registerUser(req, res, next){
         });
     })
     .catch(function (err) {
-     message = "error 400";
+      message = "error 400";
       res.status(400).json(message);
     });
 }
@@ -41,13 +42,15 @@ function loginUser(req, res, next){
   db
   .select("*")
   .from("utilisateur")
-  .where("id_utilisateur", "=", req.params.idUser)
+  .where("email", "=", req.body.emailUser)
+  //.andWhere("password", "=", md5.hex(req.params.mdpUser))
+  //.where("id_utilisateur", "=",req.params.idUser, " AND" , "password", "=",  md5.hex(req.params.mdpUser))
   .then(function (data) {
     res.status(200)
       .json({
         status: 'success',
         data: data,
-        message: 'user'
+        message: 'user connecté'
       });
   })
   .catch(function (err) {
