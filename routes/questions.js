@@ -3,6 +3,9 @@ var router = express.Router();
 
 var db = require('../database');
 
+var votePour;
+var voteContre;
+
 
 /* GET questions listing. */
 router.get('/api/docsQuestion/:idQuestion', getDocsQuestion);
@@ -36,6 +39,10 @@ var dateString = date + "-" +(month + 1) + "-" + year;
 }
 
 function getQuestionById(req, res, next) {
+
+nombreVotePour(req.params.idQuestion);
+nombreVoteContre(req.params.idQuestion);
+
   db
     .select("*")
     .from("question")
@@ -45,12 +52,42 @@ function getQuestionById(req, res, next) {
         .json({
           status: 'success',
           data: data,
-          message: 'question'
+          votePour: votePour,
+          voteContre: voteContre 
         });
     })
     .catch(function (err) {
       return next(err);
     });
+}
+
+function nombreVotePour(idQuestion){
+  db
+    .count("*")
+    .from("vote")
+    .where("id_question", "=", idQuestion)
+    .where("resultat", "=", true)
+    .then(function (data) {
+      votePour = data[0].count;
+    })
+    .catch(function (err) {
+      votePour = "fail recup vote"
+    });
+}
+
+function nombreVoteContre(idQuestion){
+  db
+    .count("*")
+    .from("vote")
+    .where("id_question", "=", idQuestion)
+    .where("resultat", "=", false)
+    .then(function (data) {
+      voteContre = data[0].count;
+    })
+    .catch(function (err) {
+      voteContre = "fail recup vote"
+    });
+
 }
 
 
