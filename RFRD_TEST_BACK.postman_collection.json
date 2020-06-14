@@ -86,7 +86,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"id_document\":2,\r\n\"id_utilisateur\":2,\r\n\"note\":2\r\n}",
+					"raw": "{\r\n\"id_document\":2,\r\n\"id_utilisateur\":2,\r\n\"note\":3\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -116,7 +116,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"id_commentaire\":1,\r\n\"id_utilisateur\":2,\r\n\"note\":1\r\n}",
+					"raw": "{\r\n\"id_commentaire\":1,\r\n\"id_utilisateur\":2,\r\n\"note\":4\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -168,7 +168,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"id_documentaire\":1,\r\n\"id_utilisateur\":2,\r\n\"commentaire\": \"salut\"\r\n}",
+					"raw": "{\r\n\"id_document\":1,\r\n\"id_utilisateur\":2,\r\n\"commentaire\": \"salut\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -11,9 +11,13 @@ router.post('/api/vote', postVote);
 router.post('/api/updateVote', updateVote);
 router.post('/api/noterDoc', noteDocument);
 router.post('/api/noterCom', noteCommentaire);
+router.post('/api/updateNoteCom', updateNoteCom);
+router.post('/api/updateNoteDoc', updateNoteDoc);
 router.post('/api/commenterDoc', commenterDocument);
 router.post('/api/registerUser', registerUser);
 router.post('/api/loginUser', loginUser);
+
+
 
 
 function registerUser(req, res, next){
@@ -135,16 +139,10 @@ function postVote(req, res, next) {
   })
   .catch(err => {
     res.status(400).json("Bad request");
-  });
-
-
-
-
- 
+  }); 
 }
 
 function updateVote(req, res, next) {
-
   db
   .select()
   .from('vote')
@@ -177,7 +175,15 @@ function updateVote(req, res, next) {
 
 
 function noteDocument(req, res, next) {
-  db("notedocument")
+
+  db
+  .select()
+  .from('notedocument')
+  .where("id_document", "=", req.body.id_document)
+  .andWhere("id_utilisateur", "=", req.body.id_utilisateur)
+  .then(data => {
+    if (data.length <= 0) {
+      db("notedocument")
       .insert({
         id_document: req.body.id_document,
         id_utilisateur: req.body.id_utilisateur,
@@ -187,16 +193,32 @@ function noteDocument(req, res, next) {
       res.status(200)
         .json({
           status: 'success',
-          message: 'note document enregistré'
+          message: 'vote enregistré'
         });
     })
     .catch(function (err) {
       return next(err);
     });
+    }
+    else {
+      updateNoteDoc(req,res)
+    }
+  })
+  .catch(err => {
+    res.status(400).json("Bad request");
+  });
+
 }
 
 function noteCommentaire(req, res, next) {
-  db("notecommentaire")
+  db
+  .select()
+  .from('notecommentaire')
+  .where("id_commentaire", "=", req.body.id_commentaire)
+  .andWhere("id_utilisateur", "=", req.body.id_utilisateur)
+  .then(data => {
+    if (data.length <= 0) {
+      db("notecommentaire")
       .insert({
         id_commentaire: req.body.id_commentaire,
         id_utilisateur: req.body.id_utilisateur,
@@ -206,13 +228,86 @@ function noteCommentaire(req, res, next) {
       res.status(200)
         .json({
           status: 'success',
-          message: 'note commentaire enregistré'
+          message: 'note enregistré'
         });
     })
     .catch(function (err) {
       return next(err);
     });
+    }
+    else {
+      updateNoteCom(req,res)
+    }
+  })
+  .catch(err => {
+    res.status(400).json("Bad request");
+  });
 }
+
+
+function updateNoteCom(req, res, next) {
+  db
+  .select()
+  .from('notecommentaire')
+  .where("id_commentaire", "=", req.body.id_commentaire)
+  .andWhere("id_utilisateur", "=", req.body.id_utilisateur)
+  .update({
+    note: req.body.note
+  })
+  .then(data => {
+    if (data.length <= 0) {
+      res.status(400)
+        .json({
+          status: 'fail',
+          message: ''
+        });
+    }
+    else {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'note update'
+        });
+    }
+  })
+  .catch(err => {
+    res.status(400).json("Bad request");
+  });
+}
+
+
+function updateNoteDoc(req, res, next) {
+  db
+  .select()
+  .from('notedocument')
+  .where("id_document", "=", req.body.id_document)
+  .andWhere("id_utilisateur", "=", req.body.id_utilisateur)
+  .update({
+    note: req.body.note
+  })
+  .then(data => {
+    if (data.length <= 0) {
+      res.status(400)
+        .json({
+          status: 'fail',
+          message: ''
+        });
+    }
+    else {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'note update'
+        });
+    }
+  })
+  .catch(err => {
+    res.status(400).json("Bad request");
+  });
+}
+
 
 function commenterDocument(req, res, next) {
   db("commentaire")
