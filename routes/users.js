@@ -45,11 +45,11 @@ function registerUser(req, res, next){
 
 function loginUser(req, res, next){
   db
-  .select("*")
+  .select("id_utilisateur")
   .from("utilisateur")
   .where("email", "=", req.body.emailUser).andWhere("password", "=", md5.hex(req.body.mdpUser))
   .then(data => {
-    if (data.length >= 0) {
+    if (data.length >= 1) {
       res.status(200)
       .json({
         status: 'success',
